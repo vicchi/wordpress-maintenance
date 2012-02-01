@@ -1,0 +1,22 @@
+<?php
+// Inspired by and adapted from Kevin Leary's custom maintenance page
+// http://www.kevinleary.net/custom-maintenance-page-wordpress/
+
+function is_user_logged_in() {
+	$logged_in = false;
+	
+	foreach ((array)$_COOKIE as $cookie => $value) {
+		if (stristr ($cookie, 'wordpress_logged_in_')) {
+			$logged_in = true;
+		}
+	}
+	
+	return $logged_in;
+}
+
+if (!stristr($_SERVER['REQUEST_URI'], '/wp-admin') &&
+		!stristr($_SERVER['REQUEST_URI'], '/wp-login.php') &&
+		!is_user_logged_in()) {
+	$upgrading = time ();
+}
+?>
